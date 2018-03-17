@@ -1,10 +1,20 @@
-module Debug.Watch exposing (watch, watch2, watch3)
+module Debug.Watch exposing (watch, watch2, watch3, watch4, watch5)
 
 {-| Log the input and output of a function to the console.
 
-@docs watch, watch2, watch3
+@docs watch, watch2, watch3, watch4, watch5
 
 -}
+
+
+formatTag : String -> ( String, String )
+formatTag tag =
+    ( if String.length tag < 2 then
+        "fn "
+      else
+        tag ++ " "
+    , String.repeat (String.length tag - 2) " " ++ "-> "
+    )
 
 
 {-| You can use it by putting it in front of a function you’re trying to debug.
@@ -19,18 +29,20 @@ module Debug.Watch exposing (watch, watch2, watch3)
 
 results in a console log of
 
-    add one
-        input: 5
+    add one : 5
        output: 6
 
 -}
 watch : String -> (a -> b) -> a -> b
 watch tag fn a =
     let
+        ( normalizedTag, indent ) =
+            formatTag tag
+
         _ =
-            Debug.log (tag ++ "\n    input") a
+            Debug.log normalizedTag a
     in
-    Debug.log "   output" (fn a)
+    Debug.log indent (fn a)
 
 
 {-| Same as `watch, but for a function with 2 arguments.
@@ -38,26 +50,79 @@ watch tag fn a =
 watch2 : String -> (a -> b -> c) -> a -> b -> c
 watch2 tag fn a b =
     let
-        _ =
-            Debug.log "        &" b
+        ( normalizedTag, indent ) =
+            formatTag tag
 
         _ =
-            Debug.log (tag ++ "\n    input") a
+            Debug.log normalizedTag a
+
+        _ =
+            Debug.log indent b
     in
-    Debug.log "   output" (fn a b)
+    Debug.log indent (fn a b)
 
 
 {-| -}
 watch3 : String -> (a -> b -> c -> d) -> a -> b -> c -> d
 watch3 tag fn a b c =
     let
-        _ =
-            Debug.log "        &" c
+        ( normalizedTag, indent ) =
+            formatTag tag
 
         _ =
-            Debug.log "        &" b
+            Debug.log normalizedTag a
 
         _ =
-            Debug.log (tag ++ "\n    input") a
+            Debug.log indent b
+
+        _ =
+            Debug.log indent c
     in
-    Debug.log "   output" (fn a b c)
+    Debug.log indent (fn a b c)
+
+
+{-| -}
+watch4 : String -> (a -> b -> c -> d -> e) -> a -> b -> c -> d -> e
+watch4 tag fn a b c d =
+    let
+        ( normalizedTag, indent ) =
+            formatTag tag
+
+        _ =
+            Debug.log normalizedTag a
+
+        _ =
+            Debug.log indent b
+
+        _ =
+            Debug.log indent c
+
+        _ =
+            Debug.log indent d
+    in
+    Debug.log indent (fn a b c d)
+
+
+{-| -}
+watch5 : String -> (a -> b -> c -> d -> e -> f) -> a -> b -> c -> d -> e -> f
+watch5 tag fn a b c d e =
+    let
+        ( normalizedTag, indent ) =
+            formatTag tag
+
+        _ =
+            Debug.log normalizedTag a
+
+        _ =
+            Debug.log indent b
+
+        _ =
+            Debug.log indent c
+
+        _ =
+            Debug.log indent d
+
+        _ =
+            Debug.log indent e
+    in
+    Debug.log indent (fn a b c d e)
