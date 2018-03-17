@@ -30,7 +30,7 @@ formatTag tag =
 results in a console log of
 
     add one : 5
-       output: 6
+         -> : 6
 
 -}
 watch : String -> (a -> b) -> a -> b
@@ -46,6 +46,19 @@ watch tag fn a =
 
 
 {-| Same as `watch, but for a function with 2 arguments.
+
+    multiply x y =
+        x * y
+
+    x =
+        Debug.watch2 "multiply" multiply 5 5
+
+results in
+
+    multiply : 5
+          -> : 5
+          -> : 25
+
 -}
 watch2 : String -> (a -> b -> c) -> a -> b -> c
 watch2 tag fn a b =
