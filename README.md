@@ -15,7 +15,6 @@ x =
 results in a console log of
 
 ```console
-add one
-    input: 5
-   output: 6
+add one : 5
+     -> : 6
 ```
